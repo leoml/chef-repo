@@ -6,6 +6,13 @@ directory '/tmp/insight' do
   action :create
 end
 
+
+file '/tmp/hello_world' do
+   action :create
+   not_if { File.exist?('/tmp/hello_world' )}
+end
+
+
 file '/tmp/hello_world.sh' do
   content '#!/bin/bash
            echo "Hello world!!" '
@@ -48,16 +55,28 @@ user 'youradmin' do
   password "paste-password-encryped-here"
 end
 
-directory "/home/ubuntu/chef/.chef" do
-  action :create
-  recursive true
-end
+#------------------------------------
 
-file "/home/ubuntu/chef/.chef/knife.rb" do
-  content "cookbook_path [ '~/chef/cookbooks']"
-end
+ %w{/home/aigadmin/chef /home/aigadmin/chef/cookbooks /home/aigadmin/.chef}.each do |dirs|
+   directory "#{dirs}" do
+     action :create
+     owner 'aigadmin'
+     group 'aigadmin'
+     recursive true
+   end
+ end
 
-file "/home/ubuntu/chef/cookbooks/solo.rb" do
-  content "cookbook_path [ '~/chef/cookbooks']"
-end
+ file "/home/aigadmin/.chef/knife.rb" do
+   content "cookbook_path [ '~/chef/cookbooks']"
+   action :create
+ end
+
+ file "/home/aigadmin/chef/cookbooks/solo.rb" do
+   content "cookbook_path [ '~/chef/cookbooks']"
+ end
+
+package "ruby-shadow" do
+  action :install
+end 
+
 
