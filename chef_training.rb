@@ -57,21 +57,21 @@ end
 
 #------------------------------------
 
- %w{/home/aigadmin/chef /home/aigadmin/chef/cookbooks /home/aigadmin/.chef}.each do |dirs|
+ %w{/home/superadmin/chef /home/superadmin/chef/cookbooks /home/superadmin/.chef}.each do |dirs|
    directory "#{dirs}" do
      action :create
-     owner 'aigadmin'
-     group 'aigadmin'
+     owner 'superadmin'
+     group 'superadmin'
      recursive true
    end
  end
 
- file "/home/aigadmin/.chef/knife.rb" do
+ file "/home/superadmin/.chef/knife.rb" do
    content "cookbook_path [ '~/chef/cookbooks']"
    action :create
  end
 
- file "/home/aigadmin/chef/cookbooks/solo.rb" do
+ file "/home/superadmin/chef/cookbooks/solo.rb" do
    content "cookbook_path [ '~/chef/cookbooks']"
  end
 
